@@ -79,7 +79,7 @@ class PhpBuiltinServer extends Extension
             $parameters .= ' -dxdebug.remote_enable=1';
         }
         $parameters .= ' -dcodecept.access_log="' . Configuration::logDir() . 'phpbuiltinserver.access_log.txt' . '"';
-
+        
         $command = sprintf(
             PHP_BINARY . ' %s -S %s:%s -t "%s" "%s"',
             $parameters,
@@ -88,7 +88,9 @@ class PhpBuiltinServer extends Extension
             realpath($this->config['documentRoot']),
             __DIR__ . '/Router.php'
         );
-
+        if (isset($this->config['prefix'])) {
+            $ommand = $this->config['prefix'] . ' ' . $command;
+        }
         return $command;
     }
 
